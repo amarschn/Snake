@@ -1,14 +1,30 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class Snake2 extends PApplet {
+
 int[][] grid;
+int N = 500;
 int xSize, ySize, rectSize;
 int vx = 0, vy = 0;
 int headX = 0, headY = 0, snakeLength = 1;
 int tempLength;
 int direction, nextDirection;
 
-void setup() {
-        int N = 500;
+public void setup() {
 	frameRate(10);
-	size(500, 500);
+	size(N, N);
 	/* Size of a piece of the grid and a single member of the snake */
 	rectSize = 10;
 	/* Size of the grid */
@@ -26,7 +42,7 @@ void setup() {
 	randomTreat();
 }
 
-void draw() {
+public void draw() {
 	background(50);
 	
 	/* Move forward */
@@ -77,7 +93,7 @@ void draw() {
 }
 
 /** Sets a random location in the grid to be a treat */
-void randomTreat() {
+public void randomTreat() {
 	int randX = (int)random(0, xSize);
 	int randY = (int)random(0, ySize);
 	if (grid[randX][randY] == 0) {
@@ -87,7 +103,7 @@ void randomTreat() {
 	}
 }
 
-void keyPressed() {
+public void keyPressed() {
 	if (key == CODED) {
 		switch (keyCode) {
 			case DOWN:
@@ -118,4 +134,13 @@ void keyPressed() {
 				break;
 		}
 	}
+}
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "Snake2" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
 }

@@ -1,4 +1,5 @@
 int[][] grid;
+
 int xSize, ySize, rectSize;
 int vx = 0, vy = 0;
 int headX = 0, headY = 0, snakeLength = 1;
@@ -119,3 +120,4 @@ void keyPressed() {
 		}
 	}
 }
+
