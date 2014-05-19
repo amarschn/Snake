@@ -1,5 +1,9 @@
 int[][] grid;
+<<<<<<< HEAD
 
+=======
+int N = 500;
+>>>>>>> 55a795fdecce47fb62fffb804d9c1397cfe6fea1
 int xSize, ySize, rectSize;
 int vx = 0, vy = 0;
 int headX = 0, headY = 0, snakeLength = 1;
@@ -7,9 +11,14 @@ int tempLength;
 int direction, nextDirection;
 
 void setup() {
+<<<<<<< HEAD
         int N = 500;
 	frameRate(10);
 	size(500, 500);
+=======
+	frameRate(10);
+	size(N, N);
+>>>>>>> 55a795fdecce47fb62fffb804d9c1397cfe6fea1
 	/* Size of a piece of the grid and a single member of the snake */
 	rectSize = 10;
 	/* Size of the grid */
