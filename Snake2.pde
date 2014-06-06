@@ -1,6 +1,7 @@
 int[][] grid;
 int xSize, ySize, rectSize;
 int vx = 0, vy = 0;
+boolean directionChanged, lengthChanged;
 int headX = 0, headY = 0, snakeLength = 1;
 int tempLength;
 int direction, nextDirection;
@@ -16,34 +17,37 @@ void setup() {
 	ySize = N/rectSize;
 	/* Initialize and complete grid */
 	grid = new int[xSize][ySize];
-	for (int x = 0; x < xSize; ++x) {
-		for (int y = 0; y < ySize; ++y) {
-			grid[x][y] = 0;
-		}
-	}
-	grid[headX][headY] = 1;
-	randomTreat();
-	randomTreat();
+	initialize();
+}
+
+void initialize() {
+  for (int x = 0; x < xSize; ++x) {
+    for (int y = 0; y < ySize; ++y) {
+      grid[x][y] = 0;
+    }
+  }
+  snakeLength = 1;
+  headX = headY = 0;
+  grid[headX][headY] = 1;
+  vx = vy = 0;
+  randomTreat();
+  randomTreat();
 }
 
 void draw() {
 	background(50);
-	
+	frameRate(snakeLength * 0.5 + 10);
 	/* Move forward */
-	headX += vx;
-	headY += vy;
+	move();
 	/* Check the head square position */
 	if (headX < 0 || headY < 0) {
-		println("Game Over");
-		exit();
+		initialize();
 	} else if (headX >= xSize || headY >= ySize) {
-		println("Game Over");
-		exit();
+		initialize();
 	}
 	/* Quit game if you run into yourself */
 	else if ((vx != 0 || vy != 0) && grid[headX][headY] > 0) {
-		println("Game Over");
-		exit();
+		initialize();
 	} else {
 		/* Find out if you got a treat */
 		if (grid[headX][headY] < 0) {
@@ -76,6 +80,12 @@ void draw() {
 
 }
 
+void move() {
+  headX += vx;
+  headY += vy;
+  directionChanged = false;
+}
+
 /** Sets a random location in the grid to be a treat */
 void randomTreat() {
 	int randX = (int)random(0, xSize);
@@ -87,35 +97,42 @@ void randomTreat() {
 	}
 }
 
+/** Handle keyboard input */
 void keyPressed() {
-	if (key == CODED) {
-		switch (keyCode) {
-			case DOWN:
-				if (vy == 0) {
-					vx = 0;
-					vy = 1;
-				}
-				break;
-			case UP:
-				if (vy == 0) {
-					vx = 0;
-					vy = -1;
-				}
-				break;
-				
-			case LEFT:
-				if (vx == 0) {
-					vx = -1;
-					vy = 0;
-				}
-				break;
-				
-			case  RIGHT:
-				if (vx == 0) {
-					vx = 1;
-					vy = 0;
-				}
-				break;
-		}
-	}
+  if (!directionChanged) {
+    if (key == CODED) {
+      switch (keyCode) {
+        case DOWN:
+        if (vy == 0) {
+          vx = 0;
+          vy = 1;
+          directionChanged = true;
+        }
+        break;
+        case UP:
+        if (vy == 0) {
+          vx = 0;
+          vy = -1;
+          directionChanged = true;
+        }
+        break;
+      				
+      case LEFT:
+      if (vx == 0) {
+        vx = -1;
+        vy = 0;
+        directionChanged = true;
+      }
+      break;
+      				
+      case  RIGHT:
+      if (vx == 0) {
+        vx = 1;
+        vy = 0;
+        directionChanged = true;
+      }
+      break;
+    }
+    }
+  }
 }
